@@ -39,7 +39,7 @@ namespace VoucherAppFCC.Controllers
             return Ok(mess_ );
 
         }
-        [AllowAnonymous]
+     
         [HttpGet("ResetPassword")]
         public ActionResult ResetPassword(string username, string password,  string newpassword)
         {
