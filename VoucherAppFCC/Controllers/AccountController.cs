@@ -73,12 +73,12 @@ namespace VoucherAppFCC.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet("GetLists")]
-        public ActionResult GetLists(tb_Blacktie_User _User )
+        [HttpPost("GetLists")]
+        public ActionResult GetLists(SearchModel _Search)
         {
 
             Messenger mess_ = new Messenger(); 
-                mess_ = _userService.GetLists(_User); 
+                mess_ = _userService.GetLists(_Search); 
             return Ok(mess_);
 
         }

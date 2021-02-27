@@ -13,7 +13,7 @@ namespace VoucherAppFCC.Services
         bool IsAnExistingUser(string userName);
         bool IsValidUserCredentials(string userName, string password);
         string GetUserRole(string userName);
-        Messenger GetLists(tb_Blacktie_User obj);
+        Messenger GetLists(SearchModel _Search);
         Messenger Getlogin(string User_Name, string User_Password);
         Messenger ResetPassword(string username, string password, string NewPassword, string AccessToken);
         tb_Blacktie_User GetUserinfo(string User_Name);
@@ -58,7 +58,7 @@ namespace VoucherAppFCC.Services
 
         public string GetUserRole(string userName)
         {
-            if (!IsAnExistingUser(userName))
+            if (string.IsNullOrEmpty(userName))
             {
                 return string.Empty;
             }
@@ -72,7 +72,7 @@ namespace VoucherAppFCC.Services
         }
 
 
-        public Messenger GetLists(tb_Blacktie_User obj)
+        public Messenger GetLists(SearchModel _Search)
         {
 
             Messenger mess_ = new Messenger();
@@ -100,7 +100,7 @@ namespace VoucherAppFCC.Services
         }
 
 
-        public Messenger Getlogin(string User_Name, string User_Password)
+        public Messenger Getlogin(string username, string password)
         {
 
             Messenger mess_ = new Messenger();
@@ -109,8 +109,9 @@ namespace VoucherAppFCC.Services
                 tb_Blacktie_User user_ = new tb_Blacktie_User();
                 using (var session = new SessionFactory())
                 {
-
-                    string sql_ = @" exec SP_O_API_Authentication_Vouche @username='" + User_Name + "',@password='" + User_Password + "'";
+                    MD5Service MD5Service_ = new MD5Service();
+                    password = MD5Service_.Encrypt(password);
+                    string sql_ = @" exec SP_O_API_Authentication_Vouche @username='" + username + "',@password='" + password + "'";
                     user_ = session.Exec<tb_Blacktie_User>(sql_).FirstOrDefault();
                 }
                 mess_.ObjModel = user_;
@@ -158,9 +159,7 @@ namespace VoucherAppFCC.Services
 
 
                 MD5Service MD5Service_ = new MD5Service();
-                NewPassword = MD5Service_.Encrypt(NewPassword);
-
-
+                NewPassword = MD5Service_.Encrypt(NewPassword); 
                 using (var session = new SessionFactory())
                 {
                     string sql_ = @" Update tb_Blacktie_User set  User_Password='" + NewPassword + "',AccessToken='" + AccessToken + "' where User_Name= '" + username + "'";
