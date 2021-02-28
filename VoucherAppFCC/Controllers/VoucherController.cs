@@ -5,33 +5,35 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VoucherAppFCC.Datalayer;
 using VoucherAppFCC.Infrastructure;
 using VoucherAppFCC.Model;
-using static VoucherAppFCC.Services.VoucherService;
+using VoucherAppFCC.Services;
 
 namespace VoucherAppFCC.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [Route("api/[controller]")]
     public class VoucherController : ControllerBase
     {
-
-        private readonly IVoucher _Service;
+        private readonly ILogger<VoucherController> _logger;
+        private readonly IUserService _Service;
         private readonly IJwtAuthManager _jwtAuthManager;
 
-        public VoucherController(IVoucher iService, IJwtAuthManager jwtAuthManager)
-        { 
+        public VoucherController(ILogger<VoucherController> logger, IUserService iService, IJwtAuthManager jwtAuthManager)
+        {
+            _logger = logger;
             _Service = iService;
             _jwtAuthManager = jwtAuthManager;
         } 
-        [HttpGet("GetLists")]
+        [HttpPost("GetLists")]
         public ActionResult GetLists(SearchVoucherModel _Search)
         {
 
             Messenger mess_ = new Messenger();
-            mess_ = _Service.GetLists(_Search);
+            mess_ = _Service.GetVoucherLists(_Search);
             return Ok(mess_);
 
         } 

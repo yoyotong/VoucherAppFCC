@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,18 +8,30 @@ using VoucherAppFCC.Model;
 
 namespace VoucherAppFCC.Services
 {
-    public class VoucherService
+    public interface IVoucher
+    { 
+
+        Messenger GetLists(SearchVoucherModel _Search);
+        Messenger UseVoucher(string VoucherCode);
+    }
+
+    public class VoucherService: IVoucher
     {
 
+        private readonly ILogger<VoucherService> _logger;
 
-        public interface IVoucher
+
+        private readonly IDictionary<string, string> _users = new Dictionary<string, string>
         {
-            bool IsAnExistingUser(string userName);
-            bool IsValidUserCredentials(string userName, string password);
-           
-            Messenger GetLists(SearchVoucherModel _Search); 
-            Messenger UseVoucher(string VoucherCode);
+            { "admin", "admin" }
+
+        };
+        // inject your database here for user validation
+        public VoucherService(ILogger<VoucherService> logger)
+        {
+            _logger = logger;
         }
+
 
         public Messenger GetLists(SearchVoucherModel _Search)
         {
@@ -35,18 +48,19 @@ namespace VoucherAppFCC.Services
                 }
                 mess_.ObjModel = userList_;
                 mess_.Status = true;
-                mess_.Data = "ok";
+                mess_.message = "ok";
 
             }
             catch (Exception ex)
             {
                 mess_.Status = false;
-                mess_.Data = ex.Message.ToString();
+                mess_.message = ex.Message.ToString();
             }
             return mess_;
 
         }
 
+        
         public Messenger UseVoucher(string VoucherCode)
         {
             // 
@@ -63,13 +77,13 @@ namespace VoucherAppFCC.Services
                 }
                 mess_.ObjModel = user_;
                 mess_.Status = true;
-                mess_.Data = "ok";
+                mess_.message = "Success";
 
             }
             catch (Exception ex)
             {
                 mess_.Status = false;
-                mess_.Data = ex.Message.ToString();
+                mess_.message = ex.Message.ToString();
             }
             return mess_;
         }

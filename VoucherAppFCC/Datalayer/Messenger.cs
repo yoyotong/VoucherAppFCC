@@ -8,6 +8,6 @@ namespace VoucherAppFCC.Datalayer
     {
         public Boolean Status { get; set; }
         public Object ObjModel { get; set; }
-        public string Data { get; set; }
+        public string message { get; set; }
     }
 }

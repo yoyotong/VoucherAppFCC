@@ -10,6 +10,7 @@ namespace VoucherAppFCC.Model
         public string Voucher_code { get; set; }
         public string Account_Name { get; set; }
         public string Mobile { get; set; }
+        public string Status { get; set; }
         public Boolean Use_Status { get; set; }
     }
     public class SearchVoucherModel

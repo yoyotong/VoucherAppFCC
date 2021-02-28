@@ -30,16 +30,17 @@ namespace VoucherAppFCC.Controllers
             _jwtAuthManager = jwtAuthManager;
         }
         [AllowAnonymous]
-        [HttpGet("GetLogin")]
+        [HttpPost("GetLogin")]
         public ActionResult GetLogin(string username, string password)
         {
           
             Messenger mess_ = new Messenger();
             mess_ = _userService.Getlogin(username, password); 
+           
             return Ok(mess_ );
 
         }
-     
+        [AllowAnonymous]
         [HttpGet("ResetPassword")]
         public ActionResult ResetPassword(string username, string password,  string newpassword)
         {
@@ -64,15 +65,12 @@ namespace VoucherAppFCC.Controllers
             else
             {
                 mess_.Status = false;
-                mess_.Data= " username " + username  + " incorrect ";
+                mess_.message= " username " + username  + " incorrect ";
 
             }
             return Ok(mess_);
 
-        }
-
-
-        [AllowAnonymous]
+        } 
         [HttpPost("GetLists")]
         public ActionResult GetLists(SearchModel _Search)
         {
