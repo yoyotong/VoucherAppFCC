@@ -60,7 +60,7 @@ namespace VoucherAppFCC.Controllers
             else
             {
                 mess_.Status = false;
-                mess_.message = " username " + username + " incorrect ";
+                mess_.message = " ชื่อ-รหัสเข้าใช้งาน: " + username + " ไม่ถูกต้อง ";
 
             }
            
@@ -92,7 +92,7 @@ namespace VoucherAppFCC.Controllers
             else
             {
                 mess_.Status = false;
-                mess_.message= " username " + username  + " incorrect ";
+                mess_.message = " ชื่อ-รหัส เข้าใช้งาน: " + username + " ไม่ถูกต้อง ";
 
             }
             return Ok(mess_);

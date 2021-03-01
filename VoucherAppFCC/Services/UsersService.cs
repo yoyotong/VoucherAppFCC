@@ -64,7 +64,7 @@ namespace VoucherAppFCC.Services
             {
                 return string.Empty;
             }
-
+            userName = userName.ToLower();
             if (userName == "admin")
             {
                 return UserRoles.Admin;
@@ -128,12 +128,13 @@ namespace VoucherAppFCC.Services
                 }
 
                 Userinfo return_ = new Userinfo();
-                return_.User_ID = user_.User_ID.ToString();
-                return_.User_Name = user_.User_Name.ToString();
-                //return_.AccessToken = user_.AccessToken.ToString();
-                return_.RoleUser = GetUserRole(user_.RoleUser);
+             
                 if (user_ != null)
                 {
+                    return_.User_ID = user_.User_ID.ToString();
+                    return_.User_Name = user_.User_Name.ToString();
+                    //return_.AccessToken = user_.AccessToken.ToString();
+                    return_.RoleUser = GetUserRole(user_.RoleUser);
 
                     mess_.ObjModel = return_;
                     mess_.Status = true;
