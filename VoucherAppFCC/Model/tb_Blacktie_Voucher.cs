@@ -22,7 +22,16 @@ namespace VoucherAppFCC.Model
         public int start { get; set; }
         public int page_size { get; set; }
         public string VoucherCode { get; set; }
-        public string CustMobile { get; set; } 
+        public string CustMobile { get; set; }
         public string CustName { get; set; }
-    } 
+    }
+    public class SaveoucherModel
+    {
+
+        public string CaseID { get; set; }
+        public string Redeemer_Mobile { get; set; }
+        public string VoucherCode { get; set; }
+        public string Redeemer_Name { get; set; }
+    }
+
 }

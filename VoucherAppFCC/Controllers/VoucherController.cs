@@ -38,12 +38,23 @@ namespace VoucherAppFCC.Controllers
 
         } 
  
-        [HttpGet("UseVoucher")]
-        public ActionResult UseVoucher(string VoucherCode)
-        {
+        //[HttpGet("UseVoucher")]
+        //public ActionResult UseVoucher(string VoucherCode)
+        //{
 
+        //    Messenger mess_ = new Messenger();
+        //    mess_ = _Service.UseVoucher(VoucherCode);
+        //    return Ok(mess_);
+
+        //}
+        [HttpPost("SaveRedeemerVoucher")]
+        public ActionResult SaveRedeemerVoucher(SaveoucherModel prm )
+        {
+           // string CaseID, string Redeemer_Name, string Redeemer_Mobile,  string VoucherCode
             Messenger mess_ = new Messenger();
-            mess_ = _Service.UseVoucher(VoucherCode);
+            string Redeemer_By = "";
+        Redeemer_By = User.Identity.Name.ToString();
+            mess_ = _Service.SaveRedeemerVoucher(prm.CaseID, prm.Redeemer_Name, prm.Redeemer_Mobile, Redeemer_By, prm.VoucherCode);
             return Ok(mess_);
 
         }

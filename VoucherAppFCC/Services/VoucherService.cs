@@ -88,5 +88,37 @@ namespace VoucherAppFCC.Services
             return mess_;
         }
 
+
+        public Messenger SaveRedeemerVoucher(string Case_ID, string Redeemer_Name, string Redeemer_Mobile ,string  Redeemer_By,string Voucher_code)
+        {
+             
+
+            Messenger mess_ = new Messenger();
+            try
+            {
+            
+                using (var session = new SessionFactory())
+                {
+
+                    string sql_ = @" Update   tb_Blacktie_Voucher_AllProject set  Case_ID='" + Case_ID  + "',Redeemer_Name='" + Redeemer_Name + "',Redeemer_Mobile='" + Redeemer_Mobile + "',Redeemer_Date=getdate(),Redeemer_By='" + Redeemer_By + "' where Voucher_code='" + Voucher_code + "'";
+                     
+                }
+                mess_.ObjModel =null ;
+                mess_.Status = true;
+                mess_.message = "Success";
+
+            }
+            catch (Exception ex)
+            {
+                mess_.Status = false;
+                mess_.message = ex.Message.ToString();
+            }
+            return mess_;
+        }
+
+
+
+
+
     }
 }
