@@ -37,4 +37,12 @@ namespace VoucherAppFCC.Model
         public int start { get; set; }
         public int page_size { get; set; }
     }
+
+    public class Userinfo
+    {
+        public string User_ID { get; set; }
+        public string User_Name { get; set; }
+        public string AccessToken { get; set; }
+        public string RoleUser { get; set; }
+    }
 }

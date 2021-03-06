@@ -30,16 +30,44 @@ namespace VoucherAppFCC.Controllers
             _jwtAuthManager = jwtAuthManager;
         }
         [AllowAnonymous]
-        [HttpGet("GetLogin")]
+        [HttpPost("GetLogin")]
         public ActionResult GetLogin(string username, string password)
         {
           
             Messenger mess_ = new Messenger();
-            mess_ = _userService.Getlogin(username, password); 
+        
+            mess_ = _userService.Getlogin(username, password);
+
+            if (mess_.Status == true)
+
+            {
+                tb_Blacktie_User _User = new tb_Blacktie_User();
+                _User = _userService.GetUserinfo(username);
+                var role = _userService.GetUserRole(_User.RoleUser);
+                var claims = new[]
+                {
+                new Claim(ClaimTypes.Name,username),
+                new Claim(ClaimTypes.Role, role)
+            };
+
+                JwtAuthResult _jwtResult = new JwtAuthResult(); 
+                _jwtResult = _jwtAuthManager.GenerateTokens(username, claims, DateTime.Now);
+                _User.AccessToken = _jwtResult.AccessToken;
+                _User.RoleUser = role;
+                mess_.ObjModel = _User; 
+                _User = null;
+            }
+            else
+            {
+                mess_.Status = false;
+                mess_.message = " ชื่อ-รหัสเข้าใช้งาน: " + username + " ไม่ถูกต้อง ";
+
+            }
+           
             return Ok(mess_ );
 
         }
-     
+        [AllowAnonymous]
         [HttpGet("ResetPassword")]
         public ActionResult ResetPassword(string username, string password,  string newpassword)
         {
@@ -64,15 +92,12 @@ namespace VoucherAppFCC.Controllers
             else
             {
                 mess_.Status = false;
-                mess_.Data= " username " + username  + " incorrect ";
+                mess_.message = " ชื่อ-รหัส เข้าใช้งาน: " + username + " ไม่ถูกต้อง ";
 
             }
             return Ok(mess_);
 
-        }
-
-
-        [AllowAnonymous]
+        } 
         [HttpPost("GetLists")]
         public ActionResult GetLists(SearchModel _Search)
         {
